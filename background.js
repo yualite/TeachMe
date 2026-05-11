@@ -18,12 +18,13 @@ const SYSTEM_PROMPT = `あなたは優秀な家庭教師です。
 ---
 問題が画面に見当たらない場合は「画面に解答すべき問題が見つかりませんでした」とだけ答えてください。`;
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message) => {
   if (message.type === 'ANALYZE_SCREEN') {
-    analyzeScreen(message.tabId)
-      .then(sendResponse)
-      .catch(err => sendResponse({ error: err.message }));
-    return true;
+    analyzeScreen(message.tabId).then(result => {
+      const type = result.error ? 'TM_ERROR' : 'TM_ANSWER';
+      const content = result.error ?? result.answer;
+      chrome.tabs.sendMessage(message.tabId, { type, content }).catch(() => {});
+    });
   }
 });
 

@@ -19,7 +19,6 @@ async function checkApiKey() {
 
 analyzeBtn.addEventListener('click', async () => {
   analyzeBtn.disabled = true;
-  setStatus('', '');
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab) {
@@ -28,21 +27,12 @@ analyzeBtn.addEventListener('click', async () => {
     return;
   }
 
-  // Show loading overlay on the page
+  // Show loading overlay, then tell background to analyze and send result directly to tab
   await chrome.tabs.sendMessage(tab.id, { type: 'TM_LOADING' }).catch(() => {});
+  chrome.runtime.sendMessage({ type: 'ANALYZE_SCREEN', tabId: tab.id });
 
-  setStatus('解析中...', '');
+  // Close popup AFTER sending the message (not before)
   window.close();
-
-  // Ask background to analyze
-  chrome.runtime.sendMessage({ type: 'ANALYZE_SCREEN', tabId: tab.id }, async (result) => {
-    if (!result) return;
-    if (result.error) {
-      await chrome.tabs.sendMessage(tab.id, { type: 'TM_ERROR', content: result.error }).catch(() => {});
-    } else {
-      await chrome.tabs.sendMessage(tab.id, { type: 'TM_ANSWER', content: result.answer }).catch(() => {});
-    }
-  });
 });
 
 optionsLink.addEventListener('click', () => {

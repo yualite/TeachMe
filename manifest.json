@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "TeachMe - AI問題解答",
+  "version": "1.0.0",
+  "description": "画面に表示された問題をGemini 2.5 Flash AIが自動解答します",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "TeachMe - AI問題解答"
+  },
+  "options_page": "options.html"
+}

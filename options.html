@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>TeachMe - 設定</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #12121f;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+      font-size: 15px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .header-icon { font-size: 36px; }
+
+    .header-text h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .header-text p {
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .card {
+      background: #1a1a2e;
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #7eb8f7;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 6px;
+    }
+
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: #e0e0e0;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: monospace;
+    }
+
+    input:focus { border-color: #4a90d9; }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .input-row input { flex: 1; }
+
+    .toggle-btn {
+      padding: 0 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .toggle-btn:hover { background: rgba(255,255,255,0.15); }
+
+    .save-btn {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #2d6a9f, #4a90d9);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      align-self: flex-start;
+    }
+    .save-btn:hover { background: linear-gradient(135deg, #3d7abf, #5aa0e9); transform: translateY(-1px); }
+    .save-btn:active { transform: translateY(0); }
+
+    .message {
+      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: none;
+    }
+    .message.success { background: rgba(80,200,120,0.15); border: 1px solid rgba(80,200,120,0.3); color: #80e080; display: block; }
+    .message.error { background: rgba(200,60,60,0.15); border: 1px solid rgba(200,60,60,0.3); color: #ff8080; display: block; }
+
+    .hint {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.6;
+    }
+
+    .hint a {
+      color: #7eb8f7;
+      text-decoration: none;
+    }
+    .hint a:hover { text-decoration: underline; }
+
+    .info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .info-list li span:first-child { flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-icon">🎓</div>
+      <div class="header-text">
+        <h1>TeachMe AI - 設定</h1>
+        <p>Gemini 2.5 Flash を使った問題解答拡張機能</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔑 Gemini APIキー</div>
+
+      <div>
+        <label for="apiKeyInput">APIキーを入力してください</label>
+        <div class="input-row">
+          <input type="password" id="apiKeyInput" placeholder="AIza..." autocomplete="off" spellcheck="false">
+          <button class="toggle-btn" id="toggleVisibility" title="表示/非表示">👁</button>
+        </div>
+      </div>
+
+      <p class="hint">
+        APIキーは <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a> から無料で取得できます。<br>
+        取得したキーをそのまま貼り付けてください。
+      </p>
+
+      <button class="save-btn" id="saveBtn">保存する</button>
+
+      <div class="message" id="message"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">ℹ️ 使い方</div>
+      <ul class="info-list">
+        <li><span>1️⃣</span><span>上でAPIキーを設定・保存する</span></li>
+        <li><span>2️⃣</span><span>解答したい問題が表示されているページを開く</span></li>
+        <li><span>3️⃣</span><span>ツールバーの 🎓 アイコンをクリックしてポップアップを開く</span></li>
+        <li><span>4️⃣</span><span>「画面を解析する」ボタンを押す</span></li>
+        <li><span>5️⃣</span><span>画面右上にAIの解答がオーバーレイ表示される</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚡ モデル情報</div>
+      <ul class="info-list">
+        <li><span>🤖</span><span>使用モデル: Gemini 2.5 Flash</span></li>
+        <li><span>🆓</span><span>無料枠: 1分あたり10リクエスト / 1日1500リクエスト</span></li>
+        <li><span>👁</span><span>画面のスクリーンショットを送信して解析します</span></li>
+        <li><span>🔒</span><span>APIキーはブラウザのローカルストレージにのみ保存されます</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

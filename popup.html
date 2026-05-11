@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeachMe</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 260px;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+      font-size: 14px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
+      padding: 16px 18px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-icon { font-size: 22px; }
+
+    .header-text h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .header-text p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 1px;
+    }
+
+    .content { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+    .analyze-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #2d6a9f, #4a90d9);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.3px;
+    }
+
+    .analyze-btn:hover { background: linear-gradient(135deg, #3d7abf, #5aa0e9); transform: translateY(-1px); }
+    .analyze-btn:active { transform: translateY(0); }
+    .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .status {
+      font-size: 12px;
+      color: #7eb8f7;
+      text-align: center;
+      min-height: 16px;
+    }
+
+    .status.error { color: #ff8080; }
+    .status.success { color: #80e080; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .options-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.15s;
+      background: none;
+      border: none;
+      width: 100%;
+      padding: 2px 0;
+    }
+
+    .options-link:hover { color: rgba(255,255,255,0.75); }
+
+    .api-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot.ok { background: #50d080; }
+    .dot.ng { background: #e05050; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-icon">🎓</div>
+    <div class="header-text">
+      <h1>TeachMe AI</h1>
+      <p>Gemini 2.5 Flash で問題解答</p>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="api-status" id="apiStatus">
+      <div class="dot ng" id="apiDot"></div>
+      <span id="apiStatusText">APIキー未設定</span>
+    </div>
+
+    <button class="analyze-btn" id="analyzeBtn" disabled>
+      <span>🔍</span> 画面を解析する
+    </button>
+
+    <div class="status" id="status"></div>
+
+    <hr class="divider">
+
+    <button class="options-link" id="optionsLink">
+      ⚙️ APIキーを設定する
+    </button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

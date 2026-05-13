@@ -27,8 +27,7 @@ analyzeBtn.addEventListener('click', async () => {
     return;
   }
 
-  // Show loading overlay, then tell background to analyze and send result directly to tab
-  await chrome.tabs.sendMessage(tab.id, { type: 'TM_LOADING' }).catch(() => {});
+  // バックグラウンドがスクショ撮影→ローディング表示→API送信の順で処理する
   chrome.runtime.sendMessage({ type: 'ANALYZE_SCREEN', tabId: tab.id });
 
   // Close popup AFTER sending the message (not before)
